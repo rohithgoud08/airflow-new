@@ -13,6 +13,7 @@ from audit import log_audit_success
 with DAG(
     dag_id="sales_gcs_bq_daily",
     start_date=datetime(2026, 1, 1),
+    description="Sales ETL deployed using Github actions",
     schedule="0 20 * * *",
     catchup=False,
     tags=["gcp", "gcs", "bigquery"],
