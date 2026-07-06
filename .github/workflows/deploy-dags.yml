@@ -27,4 +27,4 @@ jobs:
 
       - name: Deploy DAGs to Composer bucket
         run: |
-          gcloud storage rsync dags gs://${{ vars.COMPOSER_DAG_BUCKET }}/dags --recursive
+          gcloud storage rsync dags gs://${{ vars.COMPOSER_DAGS_BUCKET }}/dags --recursive
