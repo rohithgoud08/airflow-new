@@ -1,0 +1,30 @@
+name: Deploy DAGs to Composer
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-dags:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Validate Python files
+        run: |
+          python -m py_compile dags/*.py
+
+      - name: Deploy DAGs to Composer bucket
+        run: |
+          gcloud storage rsync dags gs://${{ vars.COMPOSER_DAG_BUCKET }}/dags --recursive
